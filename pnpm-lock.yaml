@@ -113,7 +113,7 @@ importers:
         version: link:../../packages/server-ai
       '@butler/server-tool-database':
         specifier: workspace:*
-        version: link:../../packages/server-tool-database
+        version: link:../../packages/server-tool/database
       '@koa/cors':
         specifier: ^5.0.0
         version: 5.0.0
@@ -177,11 +177,11 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/server-tool-database:
+  packages/server-tool/database:
     dependencies:
       '@butler/server-ai':
         specifier: workspace:*
-        version: link:../server-ai
+        version: link:../../server-ai
       node-sql-parser:
         specifier: ^5.3.13
         version: 5.3.13
