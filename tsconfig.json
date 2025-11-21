@@ -24,9 +24,10 @@
     "exactOptionalPropertyTypes": true,
     "baseUrl": ".",
     "paths": {
-      "@butler/*": ["packages/*/src"]
+      "@butler/*": ["packages/*/src"],
+      "@butler/web-tool-*": ["packages/web-tool/*/src"]
     }
   },
-  "include": ["packages/*/src/**/*", "apps/*/src/**/*", "vite.node.config.ts"],
+  "include": ["packages/**/src/**/*", "apps/*/src/**/*", "vite.node.config.ts"],
   "exclude": ["node_modules", "dist", "build", "**/*.test.ts", "**/*.spec.ts"]
 }

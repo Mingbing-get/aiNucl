@@ -1,11 +1,11 @@
 import { AIChatRender } from '@butler/web-react-chat';
 import { HttpTransporter } from '@butler/web-ai';
+import { addVChartTool } from '@butler/web-tool-vchart';
 import '@butler/web-react-chat/style.css';
-// import { addAllTools } from './tools'
 
 import './App.scss';
 
-// addAllTools()
+addVChartTool();
 
 const baseUrl = 'http://localhost:3100';
 const httpTransporter = new HttpTransporter({
