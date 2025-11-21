@@ -40,7 +40,11 @@ export default class DatabaseManager {
 
     for (const item of tableWithColumns) {
       const table = tables.find((table) => table.name === item.table);
-      if (!table || !table.supportedActions.includes(item.action)) {
+      if (!table) {
+        return `Table ${item.table} not found`;
+      }
+
+      if (!table.supportedActions.includes(item.action)) {
         return `Not permitted to ${item.action} table ${item.table}`;
       }
 
@@ -48,16 +52,26 @@ export default class DatabaseManager {
         continue;
       }
 
+      const needCheckColumns = item.columns || [];
+      for (const needCheckColumn of needCheckColumns) {
+        if (['*', '.*', '(.*)'].includes(needCheckColumn)) {
+          return 'Not permitted to use * in columns';
+        }
+      }
+
       const columns =
         table.columns || (await this.getTableColumns(item.table, context));
 
-      const needCheckColumns = item.columns || [];
       for (const needCheckColumn of needCheckColumns) {
         const column = columns.find(
           (column) => column.name === needCheckColumn
         );
 
-        if (!column || !column.supportedActions.includes(item.action)) {
+        if (!column) {
+          return `Column ${needCheckColumn} not found in table ${item.table}`;
+        }
+
+        if (!column.supportedActions.includes(item.action)) {
           return `Not permitted to ${item.action} column ${needCheckColumn} in table ${item.table}`;
         }
       }

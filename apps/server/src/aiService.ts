@@ -22,32 +22,37 @@ const databaseManager = new DatabaseManager({
       {
         name: 'user',
         supportedActions: ['select', 'insert', 'update', 'delete'],
-        columns: [
-          {
-            name: 'id',
-            type: 'int',
-            supportedActions: ['select'],
-          },
-          {
-            name: 'name',
-            type: 'varchar(255)',
-            supportedActions: ['select', 'update'],
-          },
-          {
-            name: 'age',
-            type: 'int',
-            supportedActions: ['select', 'update'],
-          },
-          {
-            name: 'password',
-            type: 'varchar(255)',
-            supportedActions: ['select', 'update'],
-          },
-        ],
       },
     ];
   },
-  getTableColumns: async () => [],
+  getTableColumns: async (tableName: string) => {
+    if (tableName === 'user') {
+      return [
+        {
+          name: 'id',
+          type: 'int',
+          supportedActions: ['select'],
+        },
+        {
+          name: 'name',
+          type: 'varchar(255)',
+          supportedActions: ['select', 'update'],
+        },
+        {
+          name: 'age',
+          type: 'int',
+          supportedActions: ['select', 'update'],
+        },
+        {
+          name: 'password',
+          type: 'varchar(255)',
+          supportedActions: ['select', 'update'],
+        },
+      ];
+    }
+
+    return [];
+  },
   executeSql: async (sql: string) => {
     return db.raw(sql);
   },
