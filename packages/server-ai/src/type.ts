@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { ZodObject } from 'zod';
 import AIService from './aiService';
 
 export namespace ButlerAi {
@@ -12,8 +13,34 @@ export namespace ButlerAi {
       supportFunctionCall?: boolean;
     }
 
+    export interface CreateChatOptions {
+      messages: Array<OpenAI.Chat.Completions.ChatCompletionMessageParam>;
+      extraTools?: Array<OpenAI.Chat.Completions.ChatCompletionFunctionTool>;
+      pickToolNames?: Array<FunctionToolName>;
+      context: Context;
+    }
+
+    export interface FunctionToolMap {}
+
+    export type FunctionToolName = keyof FunctionToolMap & string;
+
+    export type WithZodFunctionTool = Omit<
+      OpenAI.Chat.Completions.ChatCompletionFunctionTool['function'],
+      'name' | 'parameters'
+    > & {
+      name: FunctionToolName;
+      parameters?: ZodObject;
+    };
+
     export interface FunctionToolInstance {
       (args: any, context: Context): Promise<any>;
+    }
+
+    export interface ToolFilter {
+      (
+        tools: WithZodFunctionTool[],
+        context: Context
+      ): Promise<WithZodFunctionTool[]> | WithZodFunctionTool[];
     }
   }
 
@@ -88,6 +115,7 @@ export namespace ButlerAi {
       aiService: AIService;
       prompt: string;
       context: AiService.Context;
+      pickToolNames?: Array<AiService.FunctionToolName>;
       extraTools?: Array<OpenAI.Chat.Completions.ChatCompletionFunctionTool>;
       id?: string;
     }

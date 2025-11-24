@@ -13,11 +13,11 @@ aiRouter.post('/generateText', async (ctx) => {
     historyMessages?: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
   };
 
-  const res = await aiService.createChatCompletion(
-    [...(historyMessages || []), { role: 'user', content: prompt }],
-    undefined,
-    false
-  );
+  const res = await aiService.createChatCompletion({
+    messages: [...(historyMessages || []), { role: 'user', content: prompt }],
+    context: {},
+    pickToolNames: [],
+  });
 
   const text = res.choices[0]?.message?.content || '';
   ctx.body = text;

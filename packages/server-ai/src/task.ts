@@ -7,6 +7,7 @@ import type { ButlerAi } from './type';
 export default class Task {
   private aiService: AIService;
   private extraTools?: Array<OpenAI.Chat.Completions.ChatCompletionFunctionTool>;
+  private pickToolNames?: Array<ButlerAi.AiService.FunctionToolName>;
 
   private status: 'pending' | 'running' | 'stopped' | 'finish' = 'pending';
   private messages: Array<OpenAI.Chat.Completions.ChatCompletionMessageParam> =
@@ -23,6 +24,7 @@ export default class Task {
     extraTools,
     id,
     context,
+    pickToolNames,
   }: ButlerAi.Task.Options) {
     this.aiService = aiService;
     this.extraTools = extraTools;
@@ -32,6 +34,7 @@ export default class Task {
     });
     this.id = id || randomUUID();
     this.context = context;
+    this.pickToolNames = pickToolNames;
   }
 
   addHistoryMessage(
@@ -75,10 +78,12 @@ export default class Task {
     const chatId = randomUUID();
 
     try {
-      const stream = this.aiService.createChatCompletionStream(
-        this.messages,
-        this.extraTools
-      );
+      const stream = await this.aiService.createChatCompletionStream({
+        messages: this.messages,
+        extraTools: this.extraTools,
+        pickToolNames: this.pickToolNames,
+        context: this.context,
+      });
       this.triggerListeners({ type: 'start-round', chatId });
 
       stream.onContent((delta) => {

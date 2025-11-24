@@ -1,5 +1,6 @@
 import { OpenAI } from 'openai';
 import { randomUUID } from 'node:crypto';
+import { z } from 'zod';
 
 import Task from './task';
 import ParseStream from './parseStream';
@@ -12,11 +13,15 @@ export default class AIService {
   private client: OpenAI;
   private defaultModel: string;
   private supportFunctionCall: boolean;
-  private tools: Array<OpenAI.Chat.Completions.ChatCompletionFunctionTool> = [];
+  private tools: Array<{
+    type: 'function';
+    function: ButlerAi.AiService.WithZodFunctionTool;
+  }> = [];
   private toolFunctions: Record<
     string,
     ButlerAi.AiService.FunctionToolInstance
   > = {};
+  private toolFilters: Array<ButlerAi.AiService.ToolFilter> = [];
 
   constructor(options: ButlerAi.AiService.Options) {
     this.client = new OpenAI({
@@ -32,7 +37,7 @@ export default class AIService {
    * @param tool 工具配置
    */
   addFunctionTool(
-    func: OpenAI.Chat.Completions.ChatCompletionFunctionTool['function'],
+    func: ButlerAi.AiService.WithZodFunctionTool,
     functionImpl: ButlerAi.AiService.FunctionToolInstance
   ) {
     this.tools.push({
@@ -41,6 +46,11 @@ export default class AIService {
     });
     this.toolFunctions[func.name] = functionImpl;
 
+    return this;
+  }
+
+  addToolFilter(toolFilter: ButlerAi.AiService.ToolFilter) {
+    this.toolFilters.push(toolFilter);
     return this;
   }
 
@@ -58,8 +68,17 @@ export default class AIService {
     if (!tool) {
       return `Tool ${toolCall.function.name} not found`;
     }
-    // 执行工具函数
+
+    // 校验参数
     const functionArgs = JSON.parse(toolCall.function.arguments || '{}');
+    if (tool.function.parameters) {
+      const res = tool.function.parameters.safeParse(functionArgs);
+      if (!res.success) {
+        return res.error.issues;
+      }
+    }
+
+    // 执行工具函数
     try {
       const result = await this.toolFunctions[tool.function.name](
         functionArgs,
@@ -77,26 +96,30 @@ export default class AIService {
    * @param messages 消息数组
    * @returns 聊天完成响应
    */
-  async createChatCompletion(
-    messages: Array<OpenAI.Chat.Completions.ChatCompletionMessageParam>,
-    extraTools?: Array<OpenAI.Chat.Completions.ChatCompletionFunctionTool>,
-    useTool: boolean = true
-  ) {
+  async createChatCompletion({
+    messages,
+    extraTools,
+    pickToolNames,
+    context,
+  }: ButlerAi.AiService.CreateChatOptions) {
     try {
+      const filterTools = await this.getCanUseTool(context, pickToolNames);
+      const allTools = [
+        ...this.zodParamsToolsToOpenAIParamsTools(filterTools),
+        ...(extraTools || []),
+      ];
+
       if (this.supportFunctionCall) {
         return await this.client.chat.completions.create({
           model: this.defaultModel,
           messages: messages,
-          tools: useTool ? [...this.tools, ...(extraTools || [])] : undefined,
+          tools: allTools,
         });
       }
 
       const withToolMessages = [...this.messageToNotSuportMessage(messages)];
-      if (useTool) {
-        const allTools = [...this.tools, ...(extraTools || [])];
-        if (allTools.length > 0) {
-          withToolMessages.unshift(this.toolToSystemMessage(allTools));
-        }
+      if (allTools.length > 0) {
+        withToolMessages.unshift(this.toolToSystemMessage(allTools));
       }
       const response = await this.client.chat.completions.create({
         model: this.defaultModel,
@@ -115,15 +138,23 @@ export default class AIService {
    * @param messages 消息数组
    * @returns 聊天完成响应
    */
-  createChatCompletionStream(
-    messages: Array<OpenAI.Chat.Completions.ChatCompletionMessageParam>,
-    extraTools?: Array<OpenAI.Chat.Completions.ChatCompletionFunctionTool>
-  ) {
+  async createChatCompletionStream({
+    messages,
+    extraTools,
+    pickToolNames,
+    context,
+  }: ButlerAi.AiService.CreateChatOptions) {
+    const filterTools = await this.getCanUseTool(context, pickToolNames);
+    const allTools = [
+      ...this.zodParamsToolsToOpenAIParamsTools(filterTools),
+      ...(extraTools || []),
+    ];
+
     if (this.supportFunctionCall) {
       const stream = this.client.chat.completions.stream({
         model: this.defaultModel,
         messages: messages,
-        tools: [...this.tools, ...(extraTools || [])],
+        tools: allTools,
         stream: true,
       });
 
@@ -133,7 +164,7 @@ export default class AIService {
     const stream = this.client.chat.completions.stream({
       model: this.defaultModel,
       messages: [
-        this.toolToSystemMessage([...this.tools, ...(extraTools || [])]),
+        this.toolToSystemMessage(allTools),
         ...this.messageToNotSuportMessage(messages),
       ],
       stream: true,
@@ -147,6 +178,38 @@ export default class AIService {
       ...options,
       aiService: this,
     });
+  }
+
+  private async getCanUseTool(
+    context: ButlerAi.AiService.Context,
+    pickToolNames?: Array<ButlerAi.AiService.FunctionToolName>
+  ): Promise<
+    Array<{
+      type: 'function';
+      function: ButlerAi.AiService.WithZodFunctionTool;
+    }>
+  > {
+    let afterFilterTools = this.tools.map((tool) => tool.function);
+    for (const filter of this.toolFilters) {
+      if (afterFilterTools.length === 0) {
+        break;
+      }
+      afterFilterTools = await filter(afterFilterTools, context);
+    }
+
+    if (pickToolNames) {
+      return afterFilterTools
+        .filter((tool) => pickToolNames.includes(tool.name))
+        .map((tool) => ({
+          type: 'function',
+          function: tool,
+        }));
+    }
+
+    return afterFilterTools.map((tool) => ({
+      type: 'function',
+      function: tool,
+    }));
   }
 
   private toolToSystemMessage(
@@ -254,5 +317,22 @@ ${toolStrMap.join('\n')}
         } catch (error) {}
       }
     });
+  }
+
+  private zodParamsToolsToOpenAIParamsTools(
+    tools: Array<{
+      type: 'function';
+      function: ButlerAi.AiService.WithZodFunctionTool;
+    }>
+  ): Array<OpenAI.Chat.Completions.ChatCompletionFunctionTool> {
+    return tools.map((tool) => ({
+      ...tool,
+      function: {
+        ...tool.function,
+        parameters: tool.function.parameters
+          ? z.toJSONSchema(tool.function.parameters)
+          : undefined,
+      },
+    }));
   }
 }
