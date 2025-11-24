@@ -54,16 +54,16 @@ importers:
 
   apps/front:
     dependencies:
-      '@butler/web-ai':
+      '@ai-nucl/web-ai':
         specifier: workspace:*
         version: link:../../packages/web-ai
-      '@butler/web-react-chat':
+      '@ai-nucl/web-react-chat':
         specifier: workspace:*
         version: link:../../packages/web-react-chat
-      '@butler/web-tool-arco':
+      '@ai-nucl/web-tool-arco':
         specifier: workspace:*
         version: link:../../packages/web-tool/arco
-      '@butler/web-tool-vchart':
+      '@ai-nucl/web-tool-vchart':
         specifier: workspace:*
         version: link:../../packages/web-tool/vchart
       classnames:
@@ -115,10 +115,10 @@ importers:
 
   apps/server:
     dependencies:
-      '@butler/server-ai':
+      '@ai-nucl/server-ai':
         specifier: workspace:*
         version: link:../../packages/server-ai
-      '@butler/server-tool-database':
+      '@ai-nucl/server-tool-database':
         specifier: workspace:*
         version: link:../../packages/server-tool/database
       '@koa/cors':
@@ -186,7 +186,7 @@ importers:
 
   packages/server-tool/database:
     dependencies:
-      '@butler/server-ai':
+      '@ai-nucl/server-ai':
         specifier: workspace:*
         version: link:../../server-ai
       node-sql-parser:
@@ -214,7 +214,7 @@ importers:
 
   packages/web-react-chat:
     dependencies:
-      '@butler/web-ai':
+      '@ai-nucl/web-ai':
         specifier: workspace:*
         version: link:../web-ai
       classnames:
@@ -269,15 +269,15 @@ importers:
 
   packages/web-tool/arco:
     dependencies:
+      '@ai-nucl/web-ai':
+        specifier: workspace:*
+        version: link:../../web-ai
+      '@ai-nucl/web-react-chat':
+        specifier: workspace:*
+        version: link:../../web-react-chat
       '@arco-design/web-react':
         specifier: ^2.66.8
         version: 2.66.8(@types/react@19.2.6)(react-dom@19.2.0)(react@19.2.0)
-      '@butler/web-ai':
-        specifier: workspace:*
-        version: link:../../web-ai
-      '@butler/web-react-chat':
-        specifier: workspace:*
-        version: link:../../web-react-chat
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -315,10 +315,10 @@ importers:
 
   packages/web-tool/vchart:
     dependencies:
-      '@butler/web-ai':
+      '@ai-nucl/web-ai':
         specifier: workspace:*
         version: link:../../web-ai
-      '@butler/web-react-chat':
+      '@ai-nucl/web-react-chat':
         specifier: workspace:*
         version: link:../../web-react-chat
       '@visactor/vchart':

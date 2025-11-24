@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { toolManager } from '@butler/web-ai';
-import '@butler/web-react-chat';
+import { toolManager } from '@ai-nucl/web-ai';
+import '@ai-nucl/web-react-chat';
 
 export * from './type';
 import { default as fieldManager } from './fieldManager';
@@ -8,7 +8,7 @@ import { default as ArcoForm } from './render';
 
 export { fieldManager, ArcoForm };
 
-declare module '@butler/web-ai' {
+declare module '@ai-nucl/web-ai' {
   export namespace AIChat {
     export namespace FunctionTool {
       export interface PluginMap {

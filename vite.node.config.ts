@@ -25,7 +25,7 @@ export default function createNodeViteConfig(
       },
       rollupOptions: {
         external: [
-          '@butler/*',
+          '@ai-nucl/*',
           'node:fs',
           'node:path',
           'node:crypto',

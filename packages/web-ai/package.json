@@ -1,7 +1,7 @@
 {
-  "name": "@butler/web-ai",
+  "name": "@ai-nucl/web-ai",
   "version": "1.0.0",
-  "description": "Butler web AI functionality",
+  "description": "AI Nucl web AI functionality",
   "main": "dist/cjs/index.cjs",
   "module": "dist/es/index.mjs",
   "types": "dist/types/index.d.ts",
@@ -28,5 +28,8 @@
     "globals": "^16.5.0",
     "typescript": "^5.3.3",
     "@types/node": "^20.11.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { Task, type AIChat } from '@butler/web-ai';
+import { Task, type AIChat } from '@ai-nucl/web-ai';
 
 import { TaskContext } from '@/context/task';
 

@@ -1,12 +1,12 @@
 import { z } from 'zod';
-import { toolManager } from '@butler/web-ai';
+import { toolManager } from '@ai-nucl/web-ai';
 import RenderChart from './render';
 
-import '@butler/web-react-chat';
+import '@ai-nucl/web-react-chat';
 
 export { RenderChart };
 
-declare module '@butler/web-ai' {
+declare module '@ai-nucl/web-ai' {
   namespace AIChat {
     export namespace FunctionTool {
       export interface PluginMap {

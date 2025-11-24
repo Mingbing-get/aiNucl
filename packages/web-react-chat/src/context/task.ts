@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-import { Task } from '@butler/web-ai';
+import { Task } from '@ai-nucl/web-ai';
 
 export const TaskContext = createContext<{
   task: Task;

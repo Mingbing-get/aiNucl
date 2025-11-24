@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import Task from './task';
 import ParseStream from './parseStream';
-import { ButlerAi } from './type';
+import { AiNucl } from './type';
 
 /**
  * OpenAI服务类，封装了与OpenAI API交互的方法
@@ -15,15 +15,13 @@ export default class AIService {
   private supportFunctionCall: boolean;
   private tools: Array<{
     type: 'function';
-    function: ButlerAi.AiService.WithZodFunctionTool;
+    function: AiNucl.AiService.WithZodFunctionTool;
   }> = [];
-  private toolFunctions: Record<
-    string,
-    ButlerAi.AiService.FunctionToolInstance
-  > = {};
-  private toolFilters: Array<ButlerAi.AiService.ToolFilter> = [];
+  private toolFunctions: Record<string, AiNucl.AiService.FunctionToolInstance> =
+    {};
+  private toolFilters: Array<AiNucl.AiService.ToolFilter> = [];
 
-  constructor(options: ButlerAi.AiService.Options) {
+  constructor(options: AiNucl.AiService.Options) {
     this.client = new OpenAI({
       apiKey: options.apiKey,
       baseURL: options.apiUrl,
@@ -37,8 +35,8 @@ export default class AIService {
    * @param tool 工具配置
    */
   addFunctionTool(
-    func: ButlerAi.AiService.WithZodFunctionTool,
-    functionImpl: ButlerAi.AiService.FunctionToolInstance
+    func: AiNucl.AiService.WithZodFunctionTool,
+    functionImpl: AiNucl.AiService.FunctionToolInstance
   ) {
     this.tools.push({
       type: 'function',
@@ -49,14 +47,14 @@ export default class AIService {
     return this;
   }
 
-  addToolFilter(toolFilter: ButlerAi.AiService.ToolFilter) {
+  addToolFilter(toolFilter: AiNucl.AiService.ToolFilter) {
     this.toolFilters.push(toolFilter);
     return this;
   }
 
   async executeFunctionTool(
     toolCall: OpenAI.Chat.Completions.ChatCompletionMessageToolCall,
-    context: ButlerAi.AiService.Context
+    context: AiNucl.AiService.Context
   ) {
     if (toolCall.type !== 'function') {
       return `Tool is not a function tool`;
@@ -101,7 +99,7 @@ export default class AIService {
     extraTools,
     pickToolNames,
     context,
-  }: ButlerAi.AiService.CreateChatOptions) {
+  }: AiNucl.AiService.CreateChatOptions) {
     try {
       const filterTools = await this.getCanUseTool(context, pickToolNames);
       const allTools = [
@@ -143,7 +141,7 @@ export default class AIService {
     extraTools,
     pickToolNames,
     context,
-  }: ButlerAi.AiService.CreateChatOptions) {
+  }: AiNucl.AiService.CreateChatOptions) {
     const filterTools = await this.getCanUseTool(context, pickToolNames);
     const allTools = [
       ...this.zodParamsToolsToOpenAIParamsTools(filterTools),
@@ -173,7 +171,7 @@ export default class AIService {
     return new ParseStream(stream);
   }
 
-  createTask(options: Omit<ButlerAi.Task.Options, 'aiService'>) {
+  createTask(options: Omit<AiNucl.Task.Options, 'aiService'>) {
     return new Task({
       ...options,
       aiService: this,
@@ -181,12 +179,12 @@ export default class AIService {
   }
 
   private async getCanUseTool(
-    context: ButlerAi.AiService.Context,
-    pickToolNames?: Array<ButlerAi.AiService.FunctionToolName>
+    context: AiNucl.AiService.Context,
+    pickToolNames?: Array<AiNucl.AiService.FunctionToolName>
   ): Promise<
     Array<{
       type: 'function';
-      function: ButlerAi.AiService.WithZodFunctionTool;
+      function: AiNucl.AiService.WithZodFunctionTool;
     }>
   > {
     let afterFilterTools = this.tools.map((tool) => tool.function);
@@ -322,7 +320,7 @@ ${toolStrMap.join('\n')}
   private zodParamsToolsToOpenAIParamsTools(
     tools: Array<{
       type: 'function';
-      function: ButlerAi.AiService.WithZodFunctionTool;
+      function: AiNucl.AiService.WithZodFunctionTool;
     }>
   ): Array<OpenAI.Chat.Completions.ChatCompletionFunctionTool> {
     return tools.map((tool) => ({

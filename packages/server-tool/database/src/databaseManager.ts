@@ -1,13 +1,13 @@
 import { Parser } from 'node-sql-parser';
 
-import type { ButlerAi } from '@butler/server-ai';
+import type { AiNucl } from '@ai-nucl/server-ai';
 import type { ToolDatabase } from './type';
 
 export default class DatabaseManager {
   constructor(private options: ToolDatabase.Options) {}
 
   async getTables(
-    context: ButlerAi.AiService.Context
+    context: AiNucl.AiService.Context
   ): Promise<ToolDatabase.TableDesc[]> {
     return ((await this.options.getTable?.(context)) || []).filter(
       (table) => table.supportedActions.length > 0
@@ -16,12 +16,12 @@ export default class DatabaseManager {
 
   async getTableColumns(
     tableName: string,
-    context: ButlerAi.AiService.Context
+    context: AiNucl.AiService.Context
   ): Promise<ToolDatabase.TableColumnDesc[]> {
     return this.options.getTableColumns(tableName, context) || [];
   }
 
-  async executeSql(sql: string, context: ButlerAi.AiService.Context) {
+  async executeSql(sql: string, context: AiNucl.AiService.Context) {
     const tableWithColumns = this.getTableAndColumnsFromSql(sql);
 
     const errorMessage = await this.checkPremission(tableWithColumns, context);
@@ -34,7 +34,7 @@ export default class DatabaseManager {
 
   private async checkPremission(
     tableWithColumns: ToolDatabase.ActionTableWithColumns[],
-    context: ButlerAi.AiService.Context
+    context: AiNucl.AiService.Context
   ) {
     const tables = await this.getTables(context);
 

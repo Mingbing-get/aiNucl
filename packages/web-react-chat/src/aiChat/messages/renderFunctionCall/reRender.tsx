@@ -1,4 +1,4 @@
-import { toolManager, type AIChat } from '@butler/web-ai';
+import { toolManager, type AIChat } from '@ai-nucl/web-ai';
 import { useMemo } from 'react';
 
 interface Props {

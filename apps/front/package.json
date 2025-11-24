@@ -1,5 +1,5 @@
 {
-  "name": "@butler/front",
+  "name": "@ai-nucl/front",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -10,10 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@butler/web-ai": "workspace:*",
-    "@butler/web-react-chat": "workspace:*",
-    "@butler/web-tool-vchart": "workspace:*",
-    "@butler/web-tool-arco": "workspace:*",
+    "@ai-nucl/web-ai": "workspace:*",
+    "@ai-nucl/web-react-chat": "workspace:*",
+    "@ai-nucl/web-tool-vchart": "workspace:*",
+    "@ai-nucl/web-tool-arco": "workspace:*",
     "classnames": "^2.5.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"

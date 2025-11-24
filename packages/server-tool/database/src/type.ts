@@ -1,4 +1,4 @@
-import { ButlerAi } from '@butler/server-ai';
+import { AiNucl } from '@ai-nucl/server-ai';
 
 export namespace ToolDatabase {
   export type DatabaseType =
@@ -32,18 +32,18 @@ export namespace ToolDatabase {
   }
 
   export interface GetTable {
-    (context: ButlerAi.AiService.Context): Promise<TableDesc[]>;
+    (context: AiNucl.AiService.Context): Promise<TableDesc[]>;
   }
 
   export interface GetTableColumns {
     (
       tableName: string,
-      context: ButlerAi.AiService.Context
+      context: AiNucl.AiService.Context
     ): Promise<TableColumnDesc[]>;
   }
 
   export interface ExecuteSql {
-    (sql: string, context: ButlerAi.AiService.Context): Promise<any>;
+    (sql: string, context: AiNucl.AiService.Context): Promise<any>;
   }
 
   export interface Options {

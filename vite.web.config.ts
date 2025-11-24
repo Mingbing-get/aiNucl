@@ -25,7 +25,7 @@ export default function createWebViteConfig(
         fileName: 'index',
       },
       rollupOptions: {
-        external: ['@butler/*'],
+        external: ['@ai-nucl/*'],
         output: [
           {
             format: 'es',

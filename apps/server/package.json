@@ -1,7 +1,7 @@
 {
-  "name": "@butler/server",
+  "name": "@ai-nucl/server",
   "version": "1.0.0",
-  "description": "Example application using Butler packages",
+  "description": "Example application using AI Nucl packages",
   "private": true,
   "scripts": {
     "dev": "nodemon ./src/index.ts",
@@ -11,8 +11,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@butler/server-ai": "workspace:*",
-    "@butler/server-tool-database": "workspace:*",
+    "@ai-nucl/server-ai": "workspace:*",
+    "@ai-nucl/server-tool-database": "workspace:*",
     "@koa/cors": "^5.0.0",
     "@koa/router": "^14.0.0",
     "dotenv": "^17.2.3",

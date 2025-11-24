@@ -24,8 +24,9 @@
     "exactOptionalPropertyTypes": true,
     "baseUrl": ".",
     "paths": {
-      "@butler/*": ["packages/*/src"],
-      "@butler/web-tool-*": ["packages/web-tool/*/src"]
+      "@ai-nucl/*": ["packages/*/src"],
+      "@ai-nucl/web-tool-*": ["packages/web-tool/*/src"],
+      "@ai-nucl/server-tool-*": ["packages/server-tool/*/src"]
     }
   },
   "include": ["packages/**/src/**/*", "apps/*/src/**/*", "vite.node.config.ts"],

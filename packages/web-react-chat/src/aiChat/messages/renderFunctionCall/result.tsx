@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import classNames from 'classnames';
 
-import type { AIChat } from '@butler/web-ai';
+import type { AIChat } from '@ai-nucl/web-ai';
 
 interface Props {
   functionCall: AIChat.AssistantCallWithResult;

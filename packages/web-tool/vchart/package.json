@@ -1,7 +1,7 @@
 {
-  "name": "@butler/web-tool-vchart",
+  "name": "@ai-nucl/web-tool-vchart",
   "version": "1.0.0",
-  "description": "Butler web tool vchart functionality",
+  "description": "AI Nucl web tool vchart functionality",
   "main": "dist/cjs/index.cjs",
   "module": "dist/es/index.mjs",
   "types": "dist/types/index.d.ts",
@@ -28,8 +28,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@butler/web-ai": "workspace:*",
-    "@butler/web-react-chat": "workspace:*",
+    "@ai-nucl/web-ai": "workspace:*",
+    "@ai-nucl/web-react-chat": "workspace:*",
     "classnames": "^2.5.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -43,5 +43,8 @@
     "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.1.0",
     "sass": "^1.94.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

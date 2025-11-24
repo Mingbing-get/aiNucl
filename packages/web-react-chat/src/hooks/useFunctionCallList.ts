@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import useTask from './useTask';
-import type { AIChat } from '@butler/web-ai';
+import type { AIChat } from '@ai-nucl/web-ai';
 
 export default function useFunctionCallList(messageId: string) {
   const [functionCallList, setFunctionCallList] = useState<

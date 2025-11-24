@@ -2,7 +2,7 @@ import OpenAI from 'openai';
 import { ZodObject } from 'zod';
 import AIService from './aiService';
 
-export namespace ButlerAi {
+export namespace AiNucl {
   export namespace AiService {
     export interface Context {}
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import type { AIChat } from '@butler/web-ai';
+import type { AIChat } from '@ai-nucl/web-ai';
 import useTask from './useTask';
 
 export default function useStaskStatus() {

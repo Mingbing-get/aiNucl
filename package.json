@@ -1,7 +1,7 @@
 {
-  "name": "@butler/root",
+  "name": "@ai-nucl/root",
   "version": "1.0.0",
-  "description": "Butler TypeScript Monorepo",
+  "description": "AI Nucl TypeScript Monorepo",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,8 +9,8 @@
     "build:app": "pnpm --filter './apps/**' build",
     "build:lib": "pnpm --filter './packages/**' build",
     "dev": "pnpm dev:server & pnpm dev:front",
-    "dev:server": "pnpm --filter @butler/server dev",
-    "dev:front": "pnpm --filter @butler/front dev",
+    "dev:server": "pnpm --filter @ai-nucl/server dev",
+    "dev:front": "pnpm --filter @ai-nucl/front dev",
     "test": "pnpm -r test",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",

@@ -2,20 +2,20 @@ import OpenAI from 'openai';
 import { randomUUID } from 'node:crypto';
 
 import AIService from './aiService';
-import type { ButlerAi } from './type';
+import type { AiNucl } from './type';
 
 export default class Task {
   private aiService: AIService;
   private extraTools?: Array<OpenAI.Chat.Completions.ChatCompletionFunctionTool>;
-  private pickToolNames?: Array<ButlerAi.AiService.FunctionToolName>;
+  private pickToolNames?: Array<AiNucl.AiService.FunctionToolName>;
 
   private status: 'pending' | 'running' | 'stopped' | 'finish' = 'pending';
   private messages: Array<OpenAI.Chat.Completions.ChatCompletionMessageParam> =
     [];
-  private listeners: Array<(event: ButlerAi.Task.TaskEvent) => void> = [];
+  private listeners: Array<(event: AiNucl.Task.TaskEvent) => void> = [];
   private extraToolWaiting: Record<string, (result: any) => void> = {};
 
-  private context: ButlerAi.AiService.Context;
+  private context: AiNucl.AiService.Context;
   readonly id: string;
 
   constructor({
@@ -25,7 +25,7 @@ export default class Task {
     id,
     context,
     pickToolNames,
-  }: ButlerAi.Task.Options) {
+  }: AiNucl.Task.Options) {
     this.aiService = aiService;
     this.extraTools = extraTools;
     this.messages.push({
@@ -56,7 +56,7 @@ export default class Task {
     this.status = 'stopped';
   }
 
-  on(listener: (event: ButlerAi.Task.TaskEvent) => void) {
+  on(listener: (event: AiNucl.Task.TaskEvent) => void) {
     this.listeners.push(listener);
   }
 
@@ -148,7 +148,7 @@ export default class Task {
     }
   }
 
-  private triggerListeners(event: ButlerAi.Task.TaskEvent) {
+  private triggerListeners(event: AiNucl.Task.TaskEvent) {
     if (this.status !== 'running') return;
 
     this.listeners.forEach((listener) => listener(event));

@@ -1,6 +1,6 @@
 import Router from '@koa/router';
 import { Readable } from 'stream';
-import { Task, OpenAI } from '@butler/server-ai';
+import { Task, OpenAI } from '@ai-nucl/server-ai';
 
 import aiService from '../aiService';
 

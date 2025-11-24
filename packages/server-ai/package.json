@@ -1,7 +1,7 @@
 {
-  "name": "@butler/server-ai",
+  "name": "@ai-nucl/server-ai",
   "version": "1.0.0",
-  "description": "Butler server AI functionality",
+  "description": "AI Nucl server AI functionality",
   "main": "dist/cjs/index.cjs",
   "module": "dist/es/index.mjs",
   "types": "dist/types/index.d.ts",
@@ -29,5 +29,8 @@
   "devDependencies": {
     "typescript": "^5.3.3",
     "@types/node": "^20.11.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

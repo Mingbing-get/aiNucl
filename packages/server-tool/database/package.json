@@ -1,7 +1,7 @@
 {
-  "name": "@butler/server-tool-database",
+  "name": "@ai-nucl/server-tool-database",
   "version": "1.0.0",
-  "description": "Butler server tool database functionality",
+  "description": "AI Nucl server tool database functionality",
   "main": "dist/cjs/index.cjs",
   "module": "dist/esm/index.mjs",
   "types": "dist/types/index.d.ts",
@@ -24,11 +24,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@butler/server-ai": "workspace:*",
+    "@ai-nucl/server-ai": "workspace:*",
     "node-sql-parser": "^5.3.13"
   },
   "devDependencies": {
     "typescript": "^5.3.3",
     "@types/node": "^20.11.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

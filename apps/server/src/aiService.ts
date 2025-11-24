@@ -1,6 +1,9 @@
 import dotenv from 'dotenv';
-import { AIService } from '@butler/server-ai';
-import { addDatabaseTool, DatabaseManager } from '@butler/server-tool-database';
+import { AIService } from '@ai-nucl/server-ai';
+import {
+  addDatabaseTool,
+  DatabaseManager,
+} from '@ai-nucl/server-tool-database';
 
 import db from './db';
 

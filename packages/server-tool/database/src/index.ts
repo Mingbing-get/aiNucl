@@ -1,11 +1,11 @@
 import { z } from 'zod';
-import { AIService, ButlerAi } from '@butler/server-ai';
+import { AIService, AiNucl } from '@ai-nucl/server-ai';
 import { default as DatabaseManager } from './databaseManager';
 
 export { DatabaseManager };
 
-declare module '@butler/server-ai' {
-  export namespace ButlerAi {
+declare module '@ai-nucl/server-ai' {
+  export namespace AiNucl {
     export namespace AiService {
       export interface FunctionToolMap {
         query_db: {};
@@ -30,7 +30,7 @@ export function addDatabaseTool(
           query: z.string().describe('The SQL query to execute'),
         }),
       },
-      async (args: { query: string }, context: ButlerAi.AiService.Context) => {
+      async (args: { query: string }, context: AiNucl.AiService.Context) => {
         return await databaseManager.executeSql(args.query, context);
       }
     )
@@ -39,7 +39,7 @@ export function addDatabaseTool(
         name: 'get_db_tables',
         description: 'Get the database tables description.',
       },
-      async (_: any, context: ButlerAi.AiService.Context) => {
+      async (_: any, context: AiNucl.AiService.Context) => {
         return await databaseManager.getTables(context);
       }
     )
@@ -53,7 +53,7 @@ export function addDatabaseTool(
       },
       async (
         args: { table_name: string },
-        context: ButlerAi.AiService.Context
+        context: AiNucl.AiService.Context
       ) => {
         return databaseManager.getTableColumns(args.table_name, context);
       }

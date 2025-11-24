@@ -1,11 +1,11 @@
-# @butler
+# @ai-nucl
 
 一个现代化的 TypeScript 多包管理项目 (Monorepo)。
 
 ## 项目结构
 
 ```
-butler/
+ai-nucl/
 ├── packages/                 # 核心包
 │   ├── types/               # 类型定义
 │   ├── utils/               # 工具函数
@@ -19,15 +19,6 @@ butler/
 ```
 
 ## 包说明
-
-### @butler/types
-提供整个项目的 TypeScript 类型定义。
-
-### @butler/utils
-包含通用的工具函数和帮助方法。
-
-### @butler/core
-Butler 的核心功能，包括插件系统、任务管理等。
 
 ## 快速开始
 
@@ -64,7 +55,7 @@ pnpm format
 ### 添加新包
 
 1. 在 `packages/` 目录下创建新的包文件夹
-2. 添加 `package.json` 文件，确保包名以 `@butler/` 开头
+2. 添加 `package.json` 文件，确保包名以 `@ai-nucl/` 开头
 3. 添加 `tsconfig.json` 文件
 4. 在根目录的 `tsconfig.json` 中添加路径映射
 
@@ -75,8 +66,8 @@ pnpm format
 ```json
 {
   "dependencies": {
-    "@butler/types": "workspace:*",
-    "@butler/utils": "workspace:*"
+    "@ai-nucl/types": "workspace:*",
+    "@ai-nucl/utils": "workspace:*"
   }
 }
 ```

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import type { AIChat } from '@butler/web-ai';
+import type { AIChat } from '@ai-nucl/web-ai';
 
 import Messages from './messages';
 import Action from './action';

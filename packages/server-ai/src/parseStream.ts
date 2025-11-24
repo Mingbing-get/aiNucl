@@ -1,7 +1,7 @@
 import { ChatCompletionStream } from 'openai/lib/ChatCompletionStream';
 import OpenAI from 'openai';
 
-import type { ButlerAi } from './type';
+import type { AiNucl } from './type';
 
 export default class ParseStream {
   static readonly START_TOOL_CALL = '===tool_call===';
@@ -13,10 +13,10 @@ export default class ParseStream {
   private toolCalls: Array<OpenAI.Chat.Completions.ChatCompletionMessageFunctionToolCall.Function> =
     [];
 
-  private contentListener?: ButlerAi.ParseStream.ContentListener;
-  private functionCallListener?: ButlerAi.ParseStream.FunctionCallListener;
-  private errorToolCallListener?: ButlerAi.ParseStream.ErrorToolCall;
-  private endListener?: ButlerAi.ParseStream.EndListener;
+  private contentListener?: AiNucl.ParseStream.ContentListener;
+  private functionCallListener?: AiNucl.ParseStream.FunctionCallListener;
+  private errorToolCallListener?: AiNucl.ParseStream.ErrorToolCall;
+  private endListener?: AiNucl.ParseStream.EndListener;
 
   constructor(private stream: ChatCompletionStream<null>) {
     stream.on('content', (delta) => {
@@ -44,19 +44,19 @@ export default class ParseStream {
     });
   }
 
-  onContent(listener: ButlerAi.ParseStream.ContentListener) {
+  onContent(listener: AiNucl.ParseStream.ContentListener) {
     this.contentListener = listener;
   }
 
-  onFunctionCall(listener: ButlerAi.ParseStream.FunctionCallListener) {
+  onFunctionCall(listener: AiNucl.ParseStream.FunctionCallListener) {
     this.functionCallListener = listener;
   }
 
-  onErrorToolCall(listener: ButlerAi.ParseStream.ErrorToolCall) {
+  onErrorToolCall(listener: AiNucl.ParseStream.ErrorToolCall) {
     this.errorToolCallListener = listener;
   }
 
-  onEnd(listener: ButlerAi.ParseStream.EndListener) {
+  onEnd(listener: AiNucl.ParseStream.EndListener) {
     this.endListener = listener;
   }
 
