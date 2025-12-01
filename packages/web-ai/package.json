@@ -1,6 +1,6 @@
 {
   "name": "@ai-nucl/web-ai",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AI Nucl web AI functionality",
   "main": "./src/index.ts",
   "module": "./src/index.ts",

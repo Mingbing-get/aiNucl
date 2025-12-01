@@ -1,6 +1,6 @@
 {
   "name": "@ai-nucl/server-db-meta",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AI Nucl server DB meta functionality",
   "main": "./src/index.ts",
   "module": "./src/index.ts",

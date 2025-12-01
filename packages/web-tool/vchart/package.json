@@ -1,6 +1,6 @@
 {
   "name": "@ai-nucl/web-tool-vchart",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AI Nucl web tool vchart functionality",
   "main": "./src/index.ts",
   "module": "./src/index.ts",
